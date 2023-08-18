@@ -19,15 +19,31 @@ rheobase <- function(x, iStep_window=6564:11561, baseline_window=1:6000, ap_thre
   vTrace_index <- c(2:(((ncol(x)-1)/2)+1))
   iTrace_index <- c((((ncol(x)-1)/2)+2):ncol(x))
   
-  #finds any values above -20mV
+  #finds any values above action potential threshold (user defined)
+  #aa returns the rows and columns where ap threshold was met
   a <- x[iStep_window,vTrace_index]
   aa <- which(a >= ap_threshold, arr.ind = TRUE)
+
+  #returning NA if no aps were found/elicited
+  #if ap is found, finds which column (iTrace_index) it occurred. then gets the current step value.
   if (is.na(aa[1]) == TRUE) {
     result <- NA
   }
+  
+  #calculating rheobase value (result)
   else {
     aaa <- iTrace_index[aa[1,2]]
-    result <- round((x[iStep_window[1],aaa] - x[baseline_window[1],aaa]), digits = 0)
+    result <- getmode(x[iStep_window, aaa]) - getmode(x[baseline_window,aaa])
+    
+    #returns a rounded current step value. reason for this is because i am calculating values directly from clampex data, which may return, for example: 121 instead of 120
+    #this ensures a rounded number with correct significant figures
+    if (floor(log10(result)) + 1 == 3) {
+      result <- signif(result, digits = 2)
+    }
+    else if (floor(log10(result)) + 1 == 2) {
+      result <- signif(result, digits = 1)
+    }
   }
   return(result)
 }
+
