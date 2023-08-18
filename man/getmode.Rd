@@ -7,7 +7,7 @@
 getmode(x)
 }
 \arguments{
-\item{x}{x must be a numeric vector}
+\item{x}{must be a numeric vector}
 }
 \value{
 returns a single value that is the mode of vector x
