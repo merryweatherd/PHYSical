@@ -4,7 +4,7 @@
 #' 
 #' @description This function gets the mode of a vector x
 #' 
-#' @param x x must be a numeric vector
+#' @param x must be a numeric vector
 #'
 #' @return returns a single value that is the mode of vector x
 #' @export
