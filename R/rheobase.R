@@ -5,14 +5,15 @@
 #' @description This function extracts the rheobase value from a current step experiment
 #'
 #' @param x data frame containing time column, voltage trace column(s), and current trace column(s)
+#' @param ap_threshold threshold voltage for detecting action potential. default is -20mV.
 #' @param iStep_window indices representing the entire current step. defaults to ~650ms - 1250ms window, which is Derek's default. adjust your window accordingly.
 #' @param baseline_window indices representing the baseline window that is used for calculation. defaults to first 600ms of each sweep, which is Derek's default. adjust your window accordingly.
-#' @param ap_threshold threshold voltage for detecting action potential. default is -20mV.
+#' 
 #'
 #' @return returns a single numeric value that is the rheobase of current step experiment
 #' @export
 #' 
-rheobase <- function(x, iStep_window=6564:11561, baseline_window=1:6000, ap_threshold=-20) {
+rheobase <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_window=1:6000) {
   
   #creating variables that will be used in calculation
   #variables represent which rows i.e. voltage and current values to use in calculation
