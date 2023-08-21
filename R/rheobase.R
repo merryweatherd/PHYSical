@@ -24,7 +24,6 @@ rheobase <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_wind
   #aa returns the rows and columns where ap threshold was met
   j <- colMeans(x[iStep_window,iTrace_index]) - colMeans(x[baseline_window,iTrace_index])
   jj <- which(j>-7)[1]
-  # a <- x[iStep_window,vTrace_index]
   a <- x[iStep_window, vTrace_index[jj:length(vTrace_index)]]
   aa <- which(a >= ap_threshold, arr.ind = TRUE)
 
@@ -35,8 +34,9 @@ rheobase <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_wind
   }
   
   #calculating rheobase value (result)
+  #jj needs to be subtracted by 1 because indexing from iTrace_index without subtraction will make you one current step ahead. especially bad when rheobase is the final current step in the experiment, this will cause function to throw a NA or NAN
   else {
-    aaa <- iTrace_index[aa[1,2] + jj]
+    aaa <- iTrace_index[aa[1,2] + (jj-1)]
     result <- getmode(x[iStep_window, aaa]) - getmode(x[baseline_window,aaa])
     
     #returns a rounded current step value. reason for this is because i am calculating values directly from clampex data, which may return, for example: 121 instead of 120

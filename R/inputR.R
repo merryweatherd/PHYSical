@@ -35,11 +35,9 @@ inputR <- function(x, step, iStep_window=6564:11561, baseline_window=1:6000, vIn
   
   #getting delta I value
   dI <- getmode(x[iStep_window, iTrace_index[stepIndex-1]]) - getmode(x[baseline_window, iTrace_index[stepIndex-1]])
-  print(dI)
   
   #getting delta V value
   dV <- getmode(x[vInfinity_window, stepIndex]) - getmode(x[baseline_window, stepIndex])
-  print(dV)
   
   #calculating Rin by R=deltaV/deltaI
   result <- round((dV / dI) * 1000, digits = 0)
