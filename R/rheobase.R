@@ -20,8 +20,12 @@ rheobase <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_wind
   iTrace_index <- c((((ncol(x)-1)/2)+2):ncol(x))
   
   #finds any values above action potential threshold (user defined)
+  #j and jj are variables that make this calculation NOT run on negative current steps. should run on 0pA and positive pA current steps
   #aa returns the rows and columns where ap threshold was met
-  a <- x[iStep_window,vTrace_index]
+  j <- colMeans(x[iStep_window,iTrace_index]) - colMeans(x[baseline_window,iTrace_index])
+  jj <- which(j>-7)[1]
+  # a <- x[iStep_window,vTrace_index]
+  a <- x[iStep_window, vTrace_index[jj:length(vTrace_index)]]
   aa <- which(a >= ap_threshold, arr.ind = TRUE)
 
   #returning NA if no aps were found/elicited
@@ -32,7 +36,7 @@ rheobase <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_wind
   
   #calculating rheobase value (result)
   else {
-    aaa <- iTrace_index[aa[1,2]]
+    aaa <- iTrace_index[aa[1,2] + jj]
     result <- getmode(x[iStep_window, aaa]) - getmode(x[baseline_window,aaa])
     
     #returns a rounded current step value. reason for this is because i am calculating values directly from clampex data, which may return, for example: 121 instead of 120

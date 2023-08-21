@@ -46,9 +46,6 @@ ap_frequency <- function(x, step, ap_threshold=-20, iStep_window=6564:11561, bas
   
   #returning firing frequency in Hz
   result <- round(APnum[3] / (length(iStep_window) / 10000), digits = 2)
-  print(class(APnum))
-  print(APnum)
-  print(APnum[3])
   
   return(result)
 }
