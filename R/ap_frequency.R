@@ -16,8 +16,7 @@
 #'
 ap_frequency <- function(x, step, ap_threshold=-20, iStep_window=6564:11561, baseline_window=1:6000) {
   
-  #creating variables that will be used in calculation
-  #variables represent which rows i.e. voltage and current values to use in calculation
+  #these variables are vectors containing index of voltage trace columns and current trace columns in data frame x
   vTrace_index <- c(2:(((ncol(x)-1)/2)+1))
   iTrace_index <- c((((ncol(x)-1)/2)+2):ncol(x))
   
