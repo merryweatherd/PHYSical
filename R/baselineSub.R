@@ -23,5 +23,4 @@ baselineSub <- function(x, baseline) {
     return(x - a)
   }
   
-  
 }
