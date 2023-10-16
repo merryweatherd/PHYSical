@@ -12,7 +12,6 @@ RoxygenNote: 7.2.3
 Imports: 
     data.table,
     matrixStats,
-    reshape2,
     stats
 Suggests: 
     testthat (>= 3.0.0)
