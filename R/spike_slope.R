@@ -29,7 +29,8 @@ spike_slope <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_w
   aa <- which(a >= -20, arr.ind = TRUE)
   slp_array <- c()
   if (is.na(aa[1]) == TRUE) {
-    result <- NA
+    result <- as.data.frame(slp_array)
+    result$time_ms <- NA
   }
   else {
     aaa <- aa[1,2] #getting rheobase column
