@@ -26,11 +26,13 @@ spike_slope <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_w
   sliding_window2 <- sliding_window
   
   a <- x[iStep_window,vTrace_index]
-  aa <- which(a >= -20, arr.ind = TRUE)
+  aa <- which(a >= ap_threshold, arr.ind = TRUE)
   slp_array <- c()
   if (is.na(aa[1]) == TRUE) {
-    result <- as.data.frame(slp_array)
+    result <- as.data.frame(matrix(ncol = 1,nrow = 1))
+    result$slp_array <- NA
     result$time_ms <- NA
+    result <- subset(result, select = -c(V1))
   }
   else {
     aaa <- aa[1,2] #getting rheobase column
