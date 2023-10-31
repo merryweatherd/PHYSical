@@ -29,7 +29,7 @@ spike_slope <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_w
   aa <- which(a >= ap_threshold, arr.ind = TRUE)
   slp_array <- c()
   if (is.na(aa[1]) == TRUE) {
-    result <- as.data.frame(matrix(ncol = 1,nrow = 1))
+    result <- data.frame(matrix(ncol = 1,nrow = 1))
     result$slp_array <- NA
     result$time_ms <- NA
     result <- subset(result, select = -c(V1))
@@ -40,11 +40,11 @@ spike_slope <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_w
     remainder <- length(j)%%sliding_window
     count <- 1
     for (i in 1:((length(j)-remainder)/sliding_window)) {
-      slp_array[i] <- j[sliding_window2] / j[count]
+      slp_array[i] <- (j[sliding_window2] - j[count]) / (sliding_window/10)
       count <- count + sliding_window
       sliding_window2 <- sliding_window2+sliding_window
     }
-    result <- as.data.frame(slp_array)
+    result <- data.frame(slp_array)
     result$time_ms <- seq(from=0, to=(length(j)-remainder)-sliding_window, by=sliding_window)
     result$time_ms <- result$time_ms/10
   }
