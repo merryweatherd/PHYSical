@@ -8,20 +8,17 @@ spike_slope(
   x,
   ap_threshold = -20,
   iStep_window = 6564:11561,
-  baseline_window = 1:6000,
-  sliding_window = 0.5
+  baseline_window = 1:6000
 )
 }
 \arguments{
-\item{x}{}
+\item{x}{data frame containing a time column, voltage trace column(s), and current trace column(s).}
 
 \item{ap_threshold}{threshold voltage for detecting action potential. default is -20mV.}
 
 \item{iStep_window}{indices representing the entire current step. defaults to ~650ms - 1250ms window, which is Derek's default. adjust your window accordingly.}
 
 \item{baseline_window}{indices representing the baseline window that is used for calculation. defaults to first 600ms of each sweep, which is Derek's default. adjust your window accordingly.}
-
-\item{sliding_window}{how much time the rolling window covers in ms}
 }
 \value{
 returns array of slope values from start of current step to first action potential in rheobase trace

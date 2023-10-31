@@ -2,7 +2,7 @@
 #' 
 #' @author Derek Merryweather
 #' 
-#' @description This function is used to find the slope to first spike in rheobase trace
+#' @description This function is used to find the slope to first spike in rheobase trace.
 #'
 #' @param x data frame containing a time column, voltage trace column(s), and current trace column(s).
 #' @param ap_threshold threshold voltage for detecting action potential. default is -20mV.
@@ -13,7 +13,6 @@
 #' 
 #' @export
 #'
-#' 
 spike_slope <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_window=1:6000) {
   
   #these variables are vectors containing index of voltage trace columns and current trace columns in data frame x
@@ -27,7 +26,10 @@ spike_slope <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_w
     result <- NA
   }
   else {
-    rheoCol <- aa[1,2] #getting rheobase column
+    rheoCol <- unique(aa[,2])[1] #getting rheobase column
+    if (stats::median(a[,rheoCol]) <= stats::median(x[baseline_window,rheoCol])) {
+      rheoCol <- unique(aa[,2])[2]
+    }
     preSpike <- aa[1,1]-3
     j <- a[1:preSpike,rheoCol]
     result <- (j[length(j)] - j[1]) / (length(j)/10)
