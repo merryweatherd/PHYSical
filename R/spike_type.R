@@ -33,16 +33,17 @@ spike_type <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_wi
   }
   
   else {
-    
-    #gets index of rheobase voltage trace in df
-    rheo_index <- vTrace_index[aa[1,2]]
+    rheoCol <- unique(aa[,2])[1] #getting rheobase column
+    if (stats::median(a[,rheoCol]) <= stats::median(x[baseline_window,rheoCol])) {
+      rheoCol <- unique(aa[,2])[2]
+    }
     
     #gets rheobase trace values (mV)
     #shifts array to find number of action potentials and where they occur
-    rheo_vec <- x[iStep_window,rheo_index]
+    rheo_vec <- a[,rheoCol]
     rheo_vec <- rheo_vec >= ap_threshold #finds values above ap threshold
     rheo_vec <- rheo_vec*rheo_vec #converts TRUE and FALSE values into 1s and 0s
-    b <- rheo_vec #new variable for shift function refference frame
+    b <- rheo_vec #new variable for shift function reference frame
     rheo_vec <- data.table::shift(rheo_vec,1) #shifts every number one point in time. rheo_vec[1] == NA and last value in rheo_vec is lost. length(rheo_vec) == length(b)
     rheo_vec <- b-rheo_vec #1 is the rising edge of the ap, -1 is the falling edge of the ap
     
