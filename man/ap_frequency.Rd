@@ -7,7 +7,7 @@
 ap_frequency(
   x,
   step,
-  ap_threshold = -20,
+  ap_threshold = -1,
   iStep_window = 6564:11561,
   baseline_window = 1:6000
 )

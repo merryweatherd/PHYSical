@@ -15,7 +15,7 @@
 #' 
 #' @export
 #'
-spike_type <- function(x, ap_threshold=-20, iStep_window=6564:11561, baseline_window=1:6000, vInfinity_window=10001:11561, burst_width=150) {
+spike_type <- function(x, ap_threshold=-1, iStep_window=6564:11561, baseline_window=1:6000, vInfinity_window=10001:11561, burst_width=150) {
   
   #these variables are vectors containing index of voltage trace columns and current trace columns in data frame x
   vTrace_index <- c(2:(((ncol(x)-1)/2)+1))
