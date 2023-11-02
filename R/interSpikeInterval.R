@@ -2,7 +2,7 @@
 #' 
 #' @author Derek Merryweather
 #' 
-#' @description kj
+#' @description finds the inter spike interval for user defined current step
 #'
 #' @param x data frame containing a time column, voltage trace column(s), and current trace column(s).
 #' @param step user defined current step to calculate ISI
@@ -33,7 +33,7 @@ interSpikeInterval <- function(x, step, ap_threshold=-20, iStep_window=6564:1156
                                matrixStats::colMedians(as.matrix(x[baseline_window,iTrace_index])),
                              digits = 0) <= (step+4)) +1
   
-  a <- x[iStep_window,stepIndex]
+  a <- x[iStep_window, vTrace_index]
   aa <- which(a >= ap_threshold, arr.ind = TRUE)
   
   #returning NA if no aps were found/elicited
@@ -52,15 +52,21 @@ interSpikeInterval <- function(x, step, ap_threshold=-20, iStep_window=6564:1156
     t <- data.table::shift(t,1) #shifts every number one point in time. rheo_vec[1] == NA and last value in rheo_vec is lost. length(rheo_vec) == length(b)
     t <- tt-t #1 is the rising edge of the ap, -1 is the falling edge of the ap
     
-    apIndex <- which(t==1) #gives index/indices where AP occurred
+    apIndex <- which(t==1, arr.ind = TRUE) #gives index/indices where AP occurred
     
     if (length(apIndex)==1) {
       result <- NA
     }
     else if (length(apIndex>1)) {
-      isi_vec <- c(apIndex[1])
-      for (i in 2:(length(apIndex))) {
-        isi_vec[i] <- apIndex[i] - apIndex[i-1]
+      isi_vec <- c()
+      for (i in 1:length(vTrace_index)) {
+        b <- which(t[,i]==1)
+        if (length(b) <= 1) {
+          next
+        }
+        for (j in 2:length(b)) {
+          isi_vec <- append(isi_vec, (b[j] - b[j-1]))
+        }
       }
       result <- isi_vec / 10 #converting isi_vec values into ms
     }
