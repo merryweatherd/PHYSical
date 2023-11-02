@@ -6,7 +6,6 @@
 \usage{
 interSpikeInterval(
   x,
-  step,
   ap_threshold = -20,
   iStep_window = 6564:11561,
   baseline_window = 1:6000
@@ -14,8 +13,6 @@ interSpikeInterval(
 }
 \arguments{
 \item{x}{data frame containing a time column, voltage trace column(s), and current trace column(s).}
-
-\item{step}{user defined current step to calculate ISI}
 
 \item{ap_threshold}{threshold voltage for detecting action potential. default is -20mV.}
 
