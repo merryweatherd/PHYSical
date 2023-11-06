@@ -25,7 +25,7 @@ interSpikeInterval <- function(x, ap_threshold=-1, iStep_window=6564:11561, base
   #returning NA if no aps were found/elicited
   #if ap is found, finds which column (iTrace_index) it occurred
   if (is.na(aa[1]) == TRUE) {
-    result <- 'noAP'
+    result <- 'NA'
   }
   
   else {
@@ -55,6 +55,16 @@ interSpikeInterval <- function(x, ap_threshold=-1, iStep_window=6564:11561, base
     t <- tt-t #1 is the rising edge of the ap, -1 is the falling edge of the ap
     
     apIndex <- which(t==1, arr.ind = TRUE) #gives index/indices where AP occurred
+    #rerunning finding apIndex because at least one trace has APs in one trace, then 0 on the next few traces, then APs
+    if (is.na(apIndex[1])==TRUE) {
+      isiCol <-unique(aa[,2])[2]
+      t <- a[,isiCol] >= ap_threshold
+      t <- t*t
+      tt <- t
+      t <- data.table::shift(t,1)
+      t <- tt-t
+      apIndex <- which(t==1, arr.ind = TRUE)
+    }
     
     if (length(apIndex)==1) {
       result <- NA
