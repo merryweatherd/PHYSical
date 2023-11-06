@@ -63,7 +63,7 @@ interSpikeInterval <- function(x, ap_threshold=-1, iStep_window=6564:11561, base
     else if (length(apIndex>1)) {
       isi_vec <- c()
       for (i in 2:length(apIndex)) {
-        b <- apIndex[1]
+        b <- apIndex[i-1]
         isi_vec <- append(isi_vec, (apIndex[i] - b))
       }
       result <- isi_vec / 10 #converting isi_vec values into ms
