@@ -25,7 +25,7 @@ interSpikeInterval <- function(x, ap_threshold=-1, iStep_window=6564:11561, base
   #returning NA if no aps were found/elicited
   #if ap is found, finds which column (iTrace_index) it occurred
   if (is.na(aa[1]) == TRUE) {
-    result <- 'NA'
+    result <- NA
   }
   
   else {
