@@ -33,16 +33,19 @@ interSpikeInterval <- function(x, ap_threshold=-1, iStep_window=6564:11561, base
     if (stats::median(a[,rheoCol]) <= stats::median(x[baseline_window,rheoCol])) {
       rheoCol <- unique(aa[,2])[2]
     }
-    isiCol <- rheoCol+3
-    if (isiCol > ncol(a)) {
-      isiCol <- rheoCol+2
+    if (rheoCol == ncol(a)) {
+      isiCol <- rheoCol
     }
-    if (isiCol > ncol(a)) {
-      isiCol <- rheoCol+1
+    else if (rheoCol > ncol(a)) {
+      isiCol <- rheoCol+3
+      if (isiCol > ncol(a)) {
+        isiCol <- rheoCol+2
+      }
+      if (isiCol > ncol(a)) {
+        isiCol <- rheoCol+1
+      }
     }
-    if (isiCol == ncol(a)) {
-      result <- NA
-    }
+    
   
     #isolating where single APs are occuring in the trace
     #shifts array to find number of action potentials and where they occur
