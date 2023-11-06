@@ -36,7 +36,7 @@ interSpikeInterval <- function(x, ap_threshold=-1, iStep_window=6564:11561, base
     if (rheoCol == ncol(a)) {
       isiCol <- rheoCol
     }
-    else if (rheoCol > ncol(a)) {
+    else if (rheoCol < ncol(a)) {
       isiCol <- rheoCol+3
       if (isiCol > ncol(a)) {
         isiCol <- rheoCol+2
@@ -46,7 +46,6 @@ interSpikeInterval <- function(x, ap_threshold=-1, iStep_window=6564:11561, base
       }
     }
     
-  
     #isolating where single APs are occuring in the trace
     #shifts array to find number of action potentials and where they occur
     t <- a[,isiCol] >= ap_threshold #finds values above ap threshold
