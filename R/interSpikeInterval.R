@@ -29,10 +29,24 @@ interSpikeInterval <- function(x, ap_threshold=-1, iStep_window=6564:11561, base
   }
   
   else {
+    rheoCol <- unique(aa[,2])[1] #getting rheobase column
+    if (stats::median(a[,rheoCol]) <= stats::median(x[baseline_window,rheoCol])) {
+      rheoCol <- unique(aa[,2])[2]
+    }
+    isiCol <- rheoCol+3
+    if (isiCol > ncol(a)) {
+      isiCol <- rheoCol+2
+    }
+    if (isiCol > ncol(a)) {
+      isiCol <- rheoCol+1
+    }
+    if (isiCol == ncol(a)) {
+      result <- NA
+    }
   
     #isolating where single APs are occuring in the trace
     #shifts array to find number of action potentials and where they occur
-    t <- a >= ap_threshold #finds values above ap threshold
+    t <- a[,isiCol] >= ap_threshold #finds values above ap threshold
     t <- t*t #converts TRUE and FALSE values into 1s and 0s
     tt <- t #new variable for shift function reference frame
     t <- data.table::shift(t,1) #shifts every number one point in time. rheo_vec[1] == NA and last value in rheo_vec is lost. length(rheo_vec) == length(b)
@@ -45,14 +59,9 @@ interSpikeInterval <- function(x, ap_threshold=-1, iStep_window=6564:11561, base
     }
     else if (length(apIndex>1)) {
       isi_vec <- c()
-      for (i in 1:length(vTrace_index)) {
-        b <- which(t[,i]==1)
-        if (length(b) <= 1) {
-          next
-        }
-        for (j in 2:length(b)) {
-          isi_vec <- append(isi_vec, (b[j] - b[j-1]))
-        }
+      for (i in 2:length(apIndex)) {
+        b <- apIndex[1]
+        isi_vec <- append(isi_vec, (apIndex[i] - b))
       }
       result <- isi_vec / 10 #converting isi_vec values into ms
     }
