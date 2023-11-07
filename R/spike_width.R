@@ -51,6 +51,11 @@ spike_width <- function(x, ap_threshold=-30, iStep_window=6564:11561, baseline_w
     t <- data.table::shift(t,1) #shifts every number one point in time. rheo_vec[1] == NA and last value in rheo_vec is lost. length(rheo_vec) == length(b)
     t <- tt-t #1 is the rising edge of the ap, -1 is the falling edge of the ap
     
+    if (length(which(t==1)) != length(which(t==-1))) {
+      b <- length(which(t==-1))
+      bb <- which(t==1)[1:b]
+      result <- mean(which(t==-1) - bb)
+    }
     result <- mean(which(t==-1) - which(t==1))
   }
   return(result)
