@@ -56,7 +56,9 @@ spike_width <- function(x, ap_threshold=-30, iStep_window=6564:11561, baseline_w
       bb <- which(t==1)[1:b]
       result <- mean(which(t==-1) - bb)
     }
-    result <- mean(which(t==-1) - which(t==1))
+    else {
+      result <- mean(which(t==-1) - which(t==1))
+      }
   }
   return(result)
 }
