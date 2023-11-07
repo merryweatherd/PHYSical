@@ -38,12 +38,12 @@ interSpikeInterval <- function(x, ap_threshold=-1, iStep_window=6564:11561, base
     }
     else if (rheoCol < ncol(a)) {
       isiCol <- rheoCol+3
-      if (isiCol > ncol(a)) {
-        isiCol <- rheoCol+2
-      }
-      if (isiCol > ncol(a)) {
-        isiCol <- rheoCol+1
-      }
+      # if (isiCol > ncol(a)) { #add these lines if you want to make the trace ISI is calculated from more than the next step after the rheobase step
+      #   isiCol <- rheoCol+2
+      # }
+      # if (isiCol > ncol(a)) {
+      #   isiCol <- rheoCol+1
+      # }
     }
     
     #isolating where single APs are occuring in the trace
